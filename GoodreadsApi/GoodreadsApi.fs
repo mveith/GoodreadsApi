@@ -3,9 +3,9 @@
 open FSharp.Data
 open OAuth
 
-type User = XmlProvider< "userSample.xml" >
+type User = XmlProvider< "userSample.xml", EmbeddedResource = "GoodreadsApi,userSample.xml"  >
 
-type Reviews = XmlProvider< "reviewsSample.xml" >
+type Reviews = XmlProvider<"reviewsSample.xml", EmbeddedResource = "GoodreadsApi,reviewsSample.xml" >
 
 let requestTokenUrl = "http://www.goodreads.com/oauth/request_token"
 let accessTokenUrl = "http://www.goodreads.com/oauth/access_token"

@@ -53,8 +53,8 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="GoodreadsApi.fs" />
-    <Content Include="userSample.xml" />
-    <Content Include="reviewsSample.xml" />
+    <EmbeddedResource Include="userSample.xml" />
+    <EmbeddedResource Include="reviewsSample.xml" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
