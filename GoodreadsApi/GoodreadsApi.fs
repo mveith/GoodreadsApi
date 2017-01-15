@@ -1,10 +1,7 @@
 ﻿module GoodreadsApi
 
-open FSharp.Data
 open OAuth
 open Parser
-
-type Reviews = XmlProvider<"reviewsSample.xml", EmbeddedResource = "GoodreadsApi,reviewsSample.xml" >
 
 let requestTokenUrl = "http://www.goodreads.com/oauth/request_token"
 let accessTokenUrl = "http://www.goodreads.com/oauth/access_token"
@@ -30,9 +27,7 @@ let getReviewsOnPage accessData userId shelf sort perPage pageNumber =
         sprintf "https://www.goodreads.com/review/list/%i.xml?key=%s&v=2&shelf=%s&sort=%s&per_page=%i&page=%i" userId accessData.ClientKey 
             shelf sort perPage pageNumber
     let reviewsResponse = getUrlContentWithAccessData url accessData
-    let reviews = Reviews.Parse reviewsResponse
-
-    reviews.Reviews
+    parseReviews reviewsResponse
 
 let getAllReviews accessData userId shelf sort = 
     let perPage = 200
@@ -51,14 +46,3 @@ let getAllReviews accessData userId shelf sort =
         |> Seq.map getReviewsOnPage
         |> Seq.collect (fun pageReviews -> pageReviews.Reviews)
     Seq.concat [| first; others |]
-
-let goodreadsDataFormat = "ddd MMM dd HH:mm:ss zzz yyyy"
-
-let parseDate s = 
-    System.DateTime.ParseExact(s, goodreadsDataFormat, System.Globalization.CultureInfo.InvariantCulture)
-    
-let parseOptionDate (s:string option) = 
-    match s with
-    | Some value -> Some (parseDate value)
-    | None -> None
-    
