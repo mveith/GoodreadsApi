@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>mveith.GoodreadsApi</id>
-    <version>0.2</version>
+    <version>0.3</version>
     <title>GoodreadsAPI F#</title>
     <authors>Miroslav Veith</authors>
     <owners>Miroslav Veith</owners>
@@ -10,11 +10,10 @@
     <projectUrl>https://github.com/mveith/GoodreadsApi</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Goodreads API wrapper written in F#.</description>
-    <releaseNotes>Dependencies fixed, sample xmls as embedded resources.</releaseNotes>
+    <releaseNotes>Removed FSharp.Data dependency</releaseNotes>
     <copyright>Copyright 2017</copyright>
     <tags>fsharp goodreads api</tags>
     <dependencies>
-      <dependency id="FSharp.Data" version="2.3.2" />
       <dependency id="mveith.OAuth" version="1.0.0" />
     </dependencies>
   </metadata>
