@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="Model.fs" />
+    <Compile Include="XmlUtils.fs" />
     <Compile Include="GoodreadsApi.fs" />
     <EmbeddedResource Include="reviewsSample.xml" />
   </ItemGroup>

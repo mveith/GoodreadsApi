@@ -3,7 +3,7 @@
 open FSharp.Data
 open OAuth
 open Model
-open System.Xml.Linq
+open XmlUtils
 
 type Reviews = XmlProvider<"reviewsSample.xml", EmbeddedResource = "GoodreadsApi,reviewsSample.xml" >
 
@@ -24,12 +24,11 @@ let getAccessData clientKey clientSecret token tokenSecret =
 let getUser accessData = 
     let userResponse = getUrlContentWithAccessData "https://www.goodreads.com/api/auth_user" accessData
 
-    let document = XDocument.Parse userResponse
-    let xn = XName.Get
-    let userElement = document.Root.Element (xn "user")
-    let id = int (userElement.Attribute (xn "id")).Value
-    let name = (userElement.Element (xn "name")).Value
-    let link = (userElement.Element (xn "link")).Value
+    let document = parseDocument userResponse
+    let userElement = element document "user"
+    let id = attributeValue userElement "id" |> int
+    let name = elementValue userElement "name"
+    let link = elementValue userElement "link"
 
     { Id = id; Name = name; Link = link}
 
