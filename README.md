@@ -22,3 +22,8 @@ let user = getUser accessData
 let user = getUser accessData
 let reviews = getAllReviews accessData user.Id "read" "date_read"
 ```
+
+## Sample of Use: Get Book detail (Book ID = 53732 (Frank Herbert: Dune))
+```fsharp
+let bookDetail = getBookDetail accessData 53732
+```

@@ -1,6 +1,7 @@
 ﻿module Model
 
 open System
+open System.Collections.Generic
 
 type User = 
     { Id : int
@@ -73,3 +74,75 @@ type Reviews =
       End : int
       Total : int
       Reviews : Review[] }
+
+type Work =
+    { Id : int
+      BooksCount : int
+      BestBookId : int
+      ReviewsCount : int
+      RatingSum : int
+      RatingsCount : int
+      TextReviewsCount : int
+      OriginalPublicationYear : int option
+      OriginalPublicationMonth : int option
+      OriginalPublicationDay  : int option
+      OriginalTitle : string
+      OriginalLanguageId : int option
+      MediaType : string
+      RatingDistribution : IDictionary<string, int>
+      DescriptionUserId : int
+    }
+
+type Series =
+    { Id :int
+      Title : string
+      Description : string
+      Note : string
+      SeriesWorksCount : int
+      PrimaryWorkCount : int
+      Numbered : bool
+    }
+
+type SeriesWork =
+    { Id :int
+      UserPosition : int
+      Series : Series
+    }
+
+type SimilarBook =
+    { Id : int
+      Title : string
+      Authors: (int * string)[]
+    }
+
+type BookDetail =
+    { Id : int
+      Title : string
+      Isbn : string
+      Isbn13 : string
+      Asin :string
+      KindleAsin :string
+      MarketplaceId : string
+      CountryCode : string
+      ImageUrl : string
+      SmallImageUrl : string
+      PublicationYear : int option
+      PublicationMonth : int option
+      PublicationDay : int option
+      Publisher : string
+      LaguageCode : string
+      IsEbook: bool
+      Description : string
+      Work : Work
+      AverageRating : float
+      NumPages : int option
+      Format : string
+      EditionInformation : string
+      RatingsCount : int
+      TextReviewsCount : int
+      Url : string
+      Link : string
+      Authors : Author[]
+      PopularShelves : (string * int)[]
+      SeriesWorks : SeriesWork[]
+      SimilarBooks : SimilarBook[] }

@@ -46,3 +46,9 @@ let getAllReviews accessData userId shelf sort =
         |> Seq.map getReviewsOnPage
         |> Seq.collect (fun pageReviews -> pageReviews.Reviews)
     Seq.concat [| first; others |]
+
+let getBookDetail accessData bookId=
+    let url = 
+        sprintf "https://www.goodreads.com/book/show/%i.xml?key=%s" bookId accessData.ClientKey 
+    let bookDetailResponse = getUrlContentWithAccessData url accessData
+    parseBookDetail bookDetailResponse

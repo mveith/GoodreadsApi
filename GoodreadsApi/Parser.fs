@@ -115,3 +115,99 @@ let parseReviews reviewsResponse=
     let reviews = elements reviewsElement "review" |> Seq.map parseReview |> Seq.toArray
     let reviewsElementIntAttribute xname = attributeValue reviewsElement xname |> int
     { Start = reviewsElementIntAttribute "start";  End = reviewsElementIntAttribute "end"; Total =  reviewsElementIntAttribute "total"; Reviews = reviews}
+    
+let parseRatingDistribution (distributionValue:string) =
+    let parsePair (x:string) =
+        let parts = x.Split([|':'|])
+        (parts.[0], int parts.[1])
+    distributionValue.Split([|'|'|]) |> Seq.map parsePair |> dict
+
+let parseWork workElement=
+    {
+        Id = elementValue workElement "id" |> int
+        BooksCount = elementValue workElement "books_count" |> int
+        BestBookId = elementValue workElement "best_book_id" |> int
+        ReviewsCount = elementValue workElement "reviews_count" |> int
+        RatingSum = elementValue workElement "ratings_sum" |> int
+        RatingsCount = elementValue workElement "ratings_count" |> int
+        TextReviewsCount = elementValue workElement "id" |> int
+        OriginalPublicationYear = elementValue workElement "original_publication_year" |> parseOptionInt
+        OriginalPublicationMonth = elementValue workElement "original_publication_month" |> parseOptionInt
+        OriginalPublicationDay  = elementValue workElement "original_publication_day" |> parseOptionInt
+        OriginalTitle = elementValue workElement "original_title"
+        OriginalLanguageId= elementValue workElement "original_language_id" |> parseOptionInt
+        MediaType = elementValue workElement "media_type"
+        RatingDistribution  =elementValue workElement "rating_dist" |> parseRatingDistribution
+        DescriptionUserId = elementValue workElement "desc_user_id" |> int
+    }
+
+let parseSeriesWork seriesWorkElement=
+    {
+        Id = elementValue seriesWorkElement "id" |> int
+        UserPosition = elementValue seriesWorkElement "user_position" |> int
+        Series = 
+            let seriesElement = element seriesWorkElement "series" 
+            {
+                Id = elementValue seriesElement "id" |> int
+                Title = elementValue seriesElement "title" 
+                Description = elementValue seriesElement "description" 
+                Note = elementValue seriesElement "note" 
+                SeriesWorksCount = elementValue seriesElement "series_works_count" |> int
+                PrimaryWorkCount = elementValue seriesElement "primary_work_count" |> int
+                Numbered = elementValue seriesElement "numbered" |> parseBool
+            }
+    }
+
+let parseSimilarBook bookElement=
+    let parseAuthor e = (int (elementValue e "id"),  elementValue e "name")
+
+    { SimilarBook.Id = elementValue bookElement "id" |> int
+      Title = elementValue bookElement "title"
+      Authors =  
+        let authorsElement = element bookElement "authors"
+        elements authorsElement "author" |> Seq.map parseAuthor |> Seq.toArray
+    }
+
+let parseBookDetail bookDetailResponse =
+    let document = parseDocument bookDetailResponse
+    let bookElement = element document "book"
+    { 
+        Id = elementValue bookElement "id" |> int
+        Title = elementValue bookElement "title"
+        Isbn = elementValue bookElement "isbn"
+        Isbn13 = elementValue bookElement "isbn13"
+        Asin = elementValue bookElement "asin"
+        KindleAsin= elementValue bookElement "kindle_asin"
+        MarketplaceId =  elementValue bookElement "marketplace_id"
+        CountryCode = elementValue bookElement "country_code"
+        ImageUrl = elementValue bookElement "image_url"
+        SmallImageUrl = elementValue bookElement "small_image_url"
+        PublicationYear = elementValue bookElement "publication_year" |> parseOptionInt
+        PublicationMonth = elementValue bookElement "publication_month" |> parseOptionInt
+        PublicationDay = elementValue bookElement "publication_day" |> parseOptionInt
+        Publisher = elementValue bookElement "publisher"
+        LaguageCode = elementValue bookElement "language_code"
+        IsEbook= elementValue bookElement "is_ebook" |> parseBool
+        Description = elementValue bookElement "description"
+        Work = element bookElement "work" |>  parseWork
+        AverageRating = elementValue bookElement "average_rating" |> float
+        NumPages = elementValue bookElement "num_pages" |> parseOptionInt
+        Format =  elementValue bookElement "format"
+        EditionInformation=  elementValue bookElement "edition_information"
+        RatingsCount = elementValue bookElement "ratings_count" |> int
+        TextReviewsCount= elementValue bookElement "text_reviews_count" |> int
+        Url = elementValue bookElement "url"
+        Link = elementValue bookElement "link"
+        Authors = 
+            let authorsElement = element bookElement "authors"
+            elements authorsElement "author" |> Seq.map parseAuthor |> Seq.toArray
+        PopularShelves = 
+            let shelvesElement = element bookElement "popular_shelves"
+            elements shelvesElement "shelf" |> Seq.map (fun e -> (attributeValue e "name",  int (attributeValue e "count"))) |> Seq.toArray
+        SeriesWorks =  
+            let seriesElement = element bookElement "series_works"
+            elements seriesElement "series_work" |> Seq.map parseSeriesWork |> Seq.toArray
+        SimilarBooks =  
+            let similarBooksElement = element bookElement "similar_books"
+            elements similarBooksElement "book" |> Seq.map parseSimilarBook |> Seq.toArray
+    }
