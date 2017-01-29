@@ -138,13 +138,13 @@ let parseWork workElement=
         OriginalLanguageId= elementValue workElement "original_language_id" |> parseOptionInt
         MediaType = elementValue workElement "media_type"
         RatingDistribution  =elementValue workElement "rating_dist" |> parseRatingDistribution
-        DescriptionUserId = elementValue workElement "desc_user_id" |> int
+        DescriptionUserId = elementValue workElement "desc_user_id" |> parseOptionInt
     }
 
 let parseSeriesWork seriesWorkElement=
     {
         Id = elementValue seriesWorkElement "id" |> int
-        UserPosition = elementValue seriesWorkElement "user_position" |> int
+        UserPosition = elementValue seriesWorkElement "user_position"
         Series = 
             let seriesElement = element seriesWorkElement "series" 
             {
@@ -209,5 +209,5 @@ let parseBookDetail bookDetailResponse =
             elements seriesElement "series_work" |> Seq.map parseSeriesWork |> Seq.toArray
         SimilarBooks =  
             let similarBooksElement = element bookElement "similar_books"
-            elements similarBooksElement "book" |> Seq.map parseSimilarBook |> Seq.toArray
+            if isNull similarBooksElement then [||] else elements similarBooksElement "book" |> Seq.map parseSimilarBook |> Seq.toArray
     }

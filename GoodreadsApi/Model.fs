@@ -90,7 +90,7 @@ type Work =
       OriginalLanguageId : int option
       MediaType : string
       RatingDistribution : IDictionary<string, int>
-      DescriptionUserId : int
+      DescriptionUserId : int option
     }
 
 type Series =
@@ -105,7 +105,7 @@ type Series =
 
 type SeriesWork =
     { Id :int
-      UserPosition : int
+      UserPosition : string
       Series : Series
     }
 
