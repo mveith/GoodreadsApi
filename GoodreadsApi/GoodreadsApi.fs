@@ -2,10 +2,7 @@
 
 open OAuth
 open Parser
-
-let requestTokenUrl = "http://www.goodreads.com/oauth/request_token"
-let accessTokenUrl = "http://www.goodreads.com/oauth/access_token"
-let authorizeUrl = sprintf "https://www.goodreads.com/oauth/authorize?oauth_token=%s&oauth_callback=%s"
+open UrlBuilder
 
 let getAuthorizationData clientKey clientSecret callbackUrl =
     let (token, tokenSecret) = getAuthorizatonToken clientKey clientSecret requestTokenUrl
@@ -14,20 +11,14 @@ let getAuthorizationData clientKey clientSecret callbackUrl =
 let getAccessToken clientKey clientSecret token tokenSecret =
     getAccessToken clientKey clientSecret accessTokenUrl token tokenSecret
 
-let getAccessData clientKey clientSecret token tokenSecret =
-    getAccessData clientKey clientSecret token tokenSecret
+let getAccessData = getAccessData
         
-let getUser accessData = 
-    let userResponse = getUrlContentWithAccessData "https://www.goodreads.com/api/auth_user" accessData
+let getUrlContentWithAccessData url accessData =  getUrlContentWithAccessData accessData url
 
-    parseUser userResponse
+let getUser accessData = userUrl |> getUrlContentWithAccessData accessData |> parseUser
 
 let getReviewsOnPage accessData userId shelf sort perPage pageNumber = 
-    let url = 
-        sprintf "https://www.goodreads.com/review/list/%i.xml?key=%s&v=2&shelf=%s&sort=%s&per_page=%i&page=%i" userId accessData.ClientKey 
-            shelf sort perPage pageNumber
-    let reviewsResponse = getUrlContentWithAccessData url accessData
-    parseReviews reviewsResponse
+    reviewsOnPageUrl accessData userId shelf sort perPage pageNumber |> getUrlContentWithAccessData accessData |> parseReviews
 
 let getAllReviews accessData userId shelf sort = 
     let perPage = 200
@@ -48,7 +39,4 @@ let getAllReviews accessData userId shelf sort =
     Seq.concat [| first; others |]
 
 let getBookDetail accessData bookId=
-    let url = 
-        sprintf "https://www.goodreads.com/book/show/%i.xml?key=%s" bookId accessData.ClientKey 
-    let bookDetailResponse = getUrlContentWithAccessData url accessData
-    parseBookDetail bookDetailResponse
+    bookDetailUrl accessData bookId |> getUrlContentWithAccessData accessData |> parseBookDetail
