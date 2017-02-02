@@ -17,6 +17,18 @@ let accessData = getAccessData clientKey clientSecret token tokenSecret
 let user = getUser accessData
 ```
 
+## Sample of Use: Get Reviews Count (Shelve = read)
+```fsharp
+let user = getUser accessData
+let reviews = getReviewsCount accessData user.Id "read"
+```
+
+## Sample of Use: Get Reviews Page (Shelve = read, Sort = date read, Reviews per page = 10, Page number  = 13)
+```fsharp
+let user = getUser accessData
+let reviews = getReviewsOnPage accessData user.Id "read" "date_read" 10 13
+```
+
 ## Sample of Use: Get Reviews (Shelve = read, Sort = date read)
 ```fsharp
 let user = getUser accessData

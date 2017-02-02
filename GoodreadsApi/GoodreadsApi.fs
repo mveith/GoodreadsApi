@@ -19,6 +19,10 @@ let getUser accessData = userUrl |> getUrlContentWithAccessData accessData |> pa
 
 let getReviewsOnPage accessData userId shelf sort perPage pageNumber = 
     reviewsOnPageUrl accessData userId shelf sort perPage pageNumber |> getUrlContentWithAccessData accessData |> parseReviews
+    
+let getReviewsCount accessData userId shelf = 
+    let firstReview = getReviewsOnPage accessData userId shelf "title" 1 1
+    firstReview.Total
 
 let getAllReviews accessData userId shelf sort = 
     let perPage = 200
