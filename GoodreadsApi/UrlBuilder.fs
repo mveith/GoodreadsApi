@@ -2,9 +2,9 @@ module UrlBuilder
 
 open OAuth
 
-let requestTokenUrl = "http://www.goodreads.com/oauth/request_token"
+let requestTokenUrl = "https://www.goodreads.com/oauth/request_token"
 
-let accessTokenUrl = "http://www.goodreads.com/oauth/access_token"
+let accessTokenUrl = "https://www.goodreads.com/oauth/access_token"
 
 let authorizeUrl = sprintf "https://www.goodreads.com/oauth/authorize?oauth_token=%s&oauth_callback=%s"
 
