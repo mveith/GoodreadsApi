@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>mveith.GoodreadsApi</id>
-    <version>0.6.0</version>
+    <version>0.6.1</version>
     <title>GoodreadsAPI F#</title>
     <authors>Miroslav Veith</authors>
     <owners>Miroslav Veith</owners>
