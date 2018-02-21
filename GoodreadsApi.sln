@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "GoodreadsApi", "GoodreadsApi\GoodreadsApi.fsproj", "{5E300C50-4961-4630-A276-B680DCC03C3C}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "GoodreadsApi.TestClient", "GoodreadsApi.TestClient\GoodreadsApi.TestClient.fsproj", "{F3520562-E2F4-4C8D-B60F-B22455296E3F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,8 +17,15 @@ Global
 		{5E300C50-4961-4630-A276-B680DCC03C3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5E300C50-4961-4630-A276-B680DCC03C3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5E300C50-4961-4630-A276-B680DCC03C3C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3520562-E2F4-4C8D-B60F-B22455296E3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3520562-E2F4-4C8D-B60F-B22455296E3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3520562-E2F4-4C8D-B60F-B22455296E3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3520562-E2F4-4C8D-B60F-B22455296E3F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9B55D231-893C-4A82-A8F8-25ED05A5F472}
 	EndGlobalSection
 EndGlobal
