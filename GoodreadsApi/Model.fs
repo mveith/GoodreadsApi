@@ -4,12 +4,12 @@ open System
 open System.Collections.Generic
 
 type User = 
-    { Id : int
+    { Id : int64
       Link : string
       Name : string }
 
 type Author=
-    { Id : int
+    { Id : int64
       Name : string
       Role : string
       ImageUrl : string
@@ -20,7 +20,7 @@ type Author=
       TextReviewsCount : int }
 
 type Book=
-    { Id : int
+    { Id : int64
       Isbn : string
       Isbn13 : string
       TextReviewsCount : int
@@ -45,11 +45,11 @@ type Book=
 type Shelf = 
     { Name : string
       Exclusive : bool
-      ReviewShelfId : int option
+      ReviewShelfId : int64 option
       Sortable : bool }
 
 type Review =
-    { Id : int
+    { Id : int64
       Rating : int
       Votes : int
       SpoilerFlag : bool
@@ -67,7 +67,7 @@ type Review =
       Link : string
       Book : Book
       Shelves : Shelf[]
-      Owned : int }
+      Owned : int option }
 
 type Reviews =
     { Start : int
@@ -76,9 +76,9 @@ type Reviews =
       Reviews : Review[] }
 
 type Work =
-    { Id : int
+    { Id : int64
       BooksCount : int
-      BestBookId : int
+      BestBookId : int64
       ReviewsCount : int
       RatingSum : int
       RatingsCount : int
@@ -87,14 +87,14 @@ type Work =
       OriginalPublicationMonth : int option
       OriginalPublicationDay  : int option
       OriginalTitle : string
-      OriginalLanguageId : int option
+      OriginalLanguageId : int64 option
       MediaType : string
       RatingDistribution : IDictionary<string, int>
-      DescriptionUserId : int option
+      DescriptionUserId : int64 option
     }
 
 type Series =
-    { Id :int
+    { Id :int64
       Title : string
       Description : string
       Note : string
@@ -104,19 +104,19 @@ type Series =
     }
 
 type SeriesWork =
-    { Id :int
+    { Id :int64
       UserPosition : string
       Series : Series
     }
 
 type SimilarBook =
-    { Id : int
+    { Id : int64
       Title : string
       Authors: (int * string)[]
     }
 
 type BookDetail =
-    { Id : int
+    { Id : int64
       Title : string
       Isbn : string
       Isbn13 : string

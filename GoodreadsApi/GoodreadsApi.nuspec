@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>mveith.GoodreadsApi</id>
-    <version>0.6.1</version>
+    <version>0.6.3</version>
     <title>GoodreadsAPI F#</title>
     <authors>Miroslav Veith</authors>
     <owners>Miroslav Veith</owners>
@@ -10,7 +10,7 @@
     <projectUrl>https://github.com/mveith/GoodreadsApi</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Goodreads API wrapper written in F#.</description>
-    <releaseNotes>Https</releaseNotes>
+    <releaseNotes>int64 ids</releaseNotes>
     <copyright>Copyright 2017</copyright>
     <tags>fsharp goodreads api</tags>
     <dependencies>

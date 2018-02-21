@@ -10,8 +10,8 @@ let authorizeUrl = sprintf "https://www.goodreads.com/oauth/authorize?oauth_toke
 
 let userUrl = "https://www.goodreads.com/api/auth_user"
 
-let reviewsOnPageUrl accessData userId shelf sort perPage pageNumber = 
+let reviewsOnPageUrl accessData (userId:int64) shelf sort perPage pageNumber = 
     sprintf "https://www.goodreads.com/review/list/%i.xml?key=%s&v=2&shelf=%s&sort=%s&per_page=%i&page=%i" userId accessData.ClientKey 
         shelf sort perPage pageNumber
 
-let bookDetailUrl accessData bookId = sprintf "https://www.goodreads.com/book/show/%i.xml?key=%s" bookId accessData.ClientKey 
+let bookDetailUrl accessData (bookId:int64) = sprintf "https://www.goodreads.com/book/show/%i.xml?key=%s" bookId accessData.ClientKey 

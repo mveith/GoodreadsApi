@@ -7,7 +7,7 @@ open System.Xml.Linq
 let parseUser userResponse=
     let document = parseDocument userResponse
     let userElement = element document "user"
-    let id = attributeValue userElement "id" |> int
+    let id = attributeValue userElement "id" |> int64
     let name = elementValue userElement "name"
     let link = elementValue userElement "link"
     { User.Id = id; Name = name; Link = link}
@@ -26,11 +26,22 @@ let parseOptionInt (s:string) =
     match s with
     | "" -> None
     | value -> Some (int value)
-
+    
+let parseOptionInt64 (s:string) =
+    match s with
+    | "" -> None
+    | value -> Some (int64 value)
+    
 let parseOptionIntFromOption (s:string option) =
     match s with
     | Some "" -> None
     | Some value -> Some (int value)
+    | None -> None
+
+let parseOptionInt64FromOption (s:string option) =
+    match s with
+    | Some "" -> None
+    | Some value -> Some (int64 value)
     | None -> None
 
 let parseBool (s:string)=
@@ -45,7 +56,7 @@ let parseBoolFromOption (s:string option)=
     | None -> false
 
 let parseAuthor (authorElement:XElement)=
-    { Id = elementValue authorElement "id" |> int
+    { Id = elementValue authorElement "id" |> int64
       Name = elementValue authorElement "name"
       Role = elementValue authorElement "role"
       ImageUrl = elementValue authorElement "image_url"
@@ -56,7 +67,7 @@ let parseAuthor (authorElement:XElement)=
       TextReviewsCount = elementValue authorElement "text_reviews_count" |> int}
 
 let parseBook (bookElement:XElement)=    
-    { Id = elementValue bookElement "id" |> int
+    { Id = elementValue bookElement "id" |> int64
       Isbn = elementValue bookElement "isbn"
       Isbn13 = elementValue bookElement "isbn13"
       TextReviewsCount = elementValue bookElement "text_reviews_count" |> int
@@ -83,11 +94,11 @@ let parseBook (bookElement:XElement)=
 let parseShelf (shelfElement:XElement) =
     { Name = attributeValue shelfElement "name"
       Exclusive =  attributeValue shelfElement "exclusive" |> parseBool
-      ReviewShelfId = attributeOptionValue shelfElement "review_shelf_id" |> parseOptionIntFromOption
+      ReviewShelfId = attributeOptionValue shelfElement "review_shelf_id" |> parseOptionInt64FromOption
       Sortable = attributeOptionValue shelfElement "sortable" |> parseBoolFromOption }
 
 let parseReview (reviewElement:XElement)=
-    { Id = elementValue reviewElement "id" |> int
+    { Id = elementValue reviewElement "id" |> int64
       Rating = elementValue reviewElement "rating" |> int
       Votes = elementValue reviewElement "votes" |> int
       SpoilerFlag = elementValue reviewElement "spoiler_flag" |> parseBool
@@ -107,7 +118,7 @@ let parseReview (reviewElement:XElement)=
       Shelves = 
         let shelvesElement = element reviewElement "shelves" 
         elements shelvesElement "shelf" |> Seq.map parseShelf |> Seq.toArray
-      Owned = elementValue reviewElement "owned" |> int }
+      Owned = elementValue reviewElement "owned" |> parseOptionInt }
 
 let parseReviews reviewsResponse=
     let document = parseDocument reviewsResponse
@@ -124,9 +135,9 @@ let parseRatingDistribution (distributionValue:string) =
 
 let parseWork workElement=
     {
-        Id = elementValue workElement "id" |> int
+        Id = elementValue workElement "id" |> int64
         BooksCount = elementValue workElement "books_count" |> int
-        BestBookId = elementValue workElement "best_book_id" |> int
+        BestBookId = elementValue workElement "best_book_id" |> int64
         ReviewsCount = elementValue workElement "reviews_count" |> int
         RatingSum = elementValue workElement "ratings_sum" |> int
         RatingsCount = elementValue workElement "ratings_count" |> int
@@ -135,20 +146,20 @@ let parseWork workElement=
         OriginalPublicationMonth = elementValue workElement "original_publication_month" |> parseOptionInt
         OriginalPublicationDay  = elementValue workElement "original_publication_day" |> parseOptionInt
         OriginalTitle = elementValue workElement "original_title"
-        OriginalLanguageId= elementValue workElement "original_language_id" |> parseOptionInt
+        OriginalLanguageId= elementValue workElement "original_language_id" |> parseOptionInt64
         MediaType = elementValue workElement "media_type"
         RatingDistribution  =elementValue workElement "rating_dist" |> parseRatingDistribution
-        DescriptionUserId = elementValue workElement "desc_user_id" |> parseOptionInt
+        DescriptionUserId = elementValue workElement "desc_user_id" |> parseOptionInt64
     }
 
 let parseSeriesWork seriesWorkElement=
     {
-        Id = elementValue seriesWorkElement "id" |> int
+        Id = elementValue seriesWorkElement "id" |> int64
         UserPosition = elementValue seriesWorkElement "user_position"
         Series = 
             let seriesElement = element seriesWorkElement "series" 
             {
-                Id = elementValue seriesElement "id" |> int
+                Id = elementValue seriesElement "id" |> int64
                 Title = elementValue seriesElement "title" 
                 Description = elementValue seriesElement "description" 
                 Note = elementValue seriesElement "note" 
@@ -161,7 +172,7 @@ let parseSeriesWork seriesWorkElement=
 let parseSimilarBook bookElement=
     let parseAuthor e = (int (elementValue e "id"),  elementValue e "name")
 
-    { SimilarBook.Id = elementValue bookElement "id" |> int
+    { SimilarBook.Id = elementValue bookElement "id" |> int64
       Title = elementValue bookElement "title"
       Authors =  
         let authorsElement = element bookElement "authors"
@@ -172,7 +183,7 @@ let parseBookDetail bookDetailResponse =
     let document = parseDocument bookDetailResponse
     let bookElement = element document "book"
     { 
-        Id = elementValue bookElement "id" |> int
+        Id = elementValue bookElement "id" |> int64
         Title = elementValue bookElement "title"
         Isbn = elementValue bookElement "isbn"
         Isbn13 = elementValue bookElement "isbn13"
